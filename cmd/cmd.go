@@ -17,7 +17,7 @@ func Execute() {
 }
 
 var rootCmd = &cobra.Command{
-	Short: "eNUBE Default Structure",
+	Short: "hippy-fm backend",
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		fmt.Println(viper.GetString("version"))
 	},

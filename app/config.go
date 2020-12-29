@@ -10,6 +10,8 @@ import (
 type Config struct {
 	//App Version
 	Version string
+	Key     string
+	Secret  string
 }
 
 // InitConfig initiates this application default configuration
@@ -17,10 +19,20 @@ func InitConfig() (*Config, error) {
 
 	config := &Config{
 		Version: viper.GetString("version"),
+		Key:     viper.GetString("key"),
+		Secret:  viper.GetString("secret"),
 	}
 
 	if len(config.Version) == 0 {
-		return nil, fmt.Errorf("CRM Endpoint must be set")
+		return nil, fmt.Errorf("version must be set")
+	}
+
+	if len(config.Key) == 0 {
+		return nil, fmt.Errorf("Key must be set")
+	}
+
+	if len(config.Secret) == 0 {
+		return nil, fmt.Errorf("Secret must be set")
 	}
 
 	return config, nil
