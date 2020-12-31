@@ -18,7 +18,6 @@ var router *gin.Engine
 func Host() {
 	router := gin.Default()
 	router.LoadHTMLGlob("./html/pages/*")
-	router.Static("/assets", "./html/assets/")
 
 	router.GET("/", func(c *gin.Context) {
 
