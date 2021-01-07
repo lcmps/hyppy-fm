@@ -16,7 +16,7 @@ var collage = &cobra.Command{
 
 		conn := app.InstanceAPI(config.Key, config.Secret)
 
-		app.GetAlbumsByPeriod(conn, "luka1498", "7day", 6)
+		app.GetAlbumsByPeriod(conn, "luka1498", "7day", 9)
 
 		return nil
 	},

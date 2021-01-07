@@ -2,6 +2,7 @@ package app
 
 import (
 	"bytes"
+	"fmt"
 	"image"
 	"image/jpeg"
 	"io/ioutil"
@@ -23,7 +24,7 @@ func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) {
 
 	res, err := api.User.GetTopAlbums(opts)
 	if err != nil {
-		panic(err)
+		fmt.Println(err.Error())
 	}
 
 	for _, album := range res.Albums {
@@ -32,16 +33,18 @@ func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) {
 		covers = append(covers, pCover)
 	}
 
+	GenerateCollageGrid(covers)
+
 	collage := GenerateCollage(covers)
 	buf := new(bytes.Buffer)
 	err = jpeg.Encode(buf, collage, nil)
 	if err != nil {
-		panic(err)
+		fmt.Println(err.Error())
 	}
 
 	err = ioutil.WriteFile("testcolage.jpg", buf.Bytes(), 0666)
 	if err != nil {
-		panic(err)
+		fmt.Println(err.Error())
 	}
 }
 
