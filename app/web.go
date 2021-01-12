@@ -16,6 +16,7 @@ func Host(conn *lastfm.Api) {
 	r.LoadHTMLGlob("./html/pages/*")
 	r.Static("/css", "./html/css/")
 	r.Static("/js", "./html/js/")
+	r.Static("/images","./html/images/")
 
 	r.GET("/", home)
 	r.GET("/img", serveCollage(conn))
