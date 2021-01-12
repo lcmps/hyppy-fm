@@ -1,29 +1,59 @@
 package app
 
 import (
+	"bytes"
+	"errors"
 	"fmt"
 	"image"
 	"image/color"
 	"image/png"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 
-	"github.com/deiwin/picasso"
 	clg "github.com/ozankasikci/go-image-merge"
+	"github.com/shkh/lastfm-go/lastfm"
 )
 
 //sizes: 3x3 = 900p, 4x4 = 1200p, 5x5 = 1500p, 10x10 = 3000p
 
-// GenerateCollage makes a img with the given proportions and covers
-func GenerateCollage(img []image.Image) image.Image {
-	layout := picasso.DrawGridLayout(img, 900)
-	return layout
+// GetAlbumsByPeriod where u- username, p- period : overall | 7day | 1month | 3month | 6month | 12month And l- limit : The number of results to fetch per page. Defaults to 50.
+func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) ([]image.Image, error) {
+
+	if u == "" {
+		return nil, errors.New("User cannot be empty")
+	}
+	if p == "" {
+		return nil, errors.New("Period cannot be empty")
+	}
+	if l < 1 {
+		return nil, errors.New("limit cannot be empty")
+	}
+
+	opts := lastfm.P{"user": u, "period": p, "limit": l}
+
+	var covers []image.Image
+
+	res, err := api.User.GetTopAlbums(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, album := range res.Albums {
+		img := getLargestCover(album.Images)
+		pCover := handleImage(img)
+		covers = append(covers, pCover)
+	}
+
+	return covers, nil
 }
 
-// GenerateCollageGrid a
-func GenerateCollageGrid(img []image.Image) {
+// CreateByteCollage a
+func CreateByteCollage(img []image.Image, s int) (*bytes.Buffer, error) {
+
+	if s < 1 {
+		return nil, errors.New("Size cannot be empty")
+	}
 
 	grids := []*clg.Grid{}
 
@@ -31,24 +61,20 @@ func GenerateCollageGrid(img []image.Image) {
 		data := clg.Grid{
 			Image: &img[i],
 		}
-		fmt.Println(data.Image)
 		grids = append(grids, &data)
 	}
 
-	rgba, err := clg.New(grids, 3, 3).Merge()
+	rgba, err := clg.New(grids, s, s).Merge()
 	if err != nil {
-		fmt.Println(err.Error())
+		return nil, err
+	}
+	buf := new(bytes.Buffer)
+	png.Encode(buf, rgba)
+	if err != nil {
+		return nil, err
 	}
 
-	file, err := os.Create("testcolage.png")
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	err = png.Encode(file, rgba)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	return buf, nil
 }
 
 func handleImage(url string) image.Image {

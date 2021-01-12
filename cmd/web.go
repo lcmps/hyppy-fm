@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/lcmps/hippyfm/app"
 	"github.com/spf13/cobra"
 )
@@ -15,9 +13,9 @@ var web = &cobra.Command{
 		if err != nil {
 			return err
 		}
+		conn := app.InstanceAPI(config.Key, config.Secret)
 
-		fmt.Println(config.Version)
-		app.Host()
+		app.Host(conn)
 
 		return nil
 	},

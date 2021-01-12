@@ -1,0 +1,22 @@
+body,html {
+    height: 100%;
+}
+
+.flb{
+    /* text-align: left; */
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+.fm-control-sbmt{
+    width: 50%;
+}
+
+.form-control{
+    margin: auto;
+    text-align: center;
+}
+
+.form-hold{
+    padding: 15px 5px 5px 5px;
+}

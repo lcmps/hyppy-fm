@@ -5,8 +5,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var collage = &cobra.Command{
-	Use: "collage",
+var test = &cobra.Command{
+	Use: "test",
 	RunE: func(cmd *cobra.Command, args []string) error {
 
 		config, err := app.InitConfig()
@@ -23,5 +23,5 @@ var collage = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(collage)
+	rootCmd.AddCommand(test)
 }
