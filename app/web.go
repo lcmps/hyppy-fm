@@ -11,12 +11,17 @@ import (
 var r *gin.Engine
 
 // Host any
-func Host(conn *lastfm.Api) {
+func Host(conn *lastfm.Api, env string) {
+
+	if env != "dev" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	r := gin.Default()
-	r.LoadHTMLGlob("./html/pages/*")
-	r.Static("/css", "./html/css/")
-	r.Static("/js", "./html/js/")
-	r.Static("/images","./html/images/")
+	r.LoadHTMLGlob("./pages/html/*")
+	r.Static("/css", "./pages/css/")
+	r.Static("/js", "./pages/js/")
+	r.Static("/images", "./pages/images/")
 
 	r.GET("/", home)
 	r.GET("/img", serveCollage(conn))
@@ -34,7 +39,7 @@ func home(ctx *gin.Context) {
 		"index.html",
 		// Pass the data that the page uses (in this case, 'title')
 		gin.H{
-			"title": "Home Page",
+			"title": "Hyppy FM",
 		},
 	)
 }
