@@ -15,5 +15,5 @@ const setImage = function () {
     document.querySelector(".aside").style.transition = "background-image 1.0s ease-out";
     counter = (counter + 1) % arrayCarousel.length;
 }
-setInterval(setImage, 3000);
+setInterval(setImage, 5000);
 

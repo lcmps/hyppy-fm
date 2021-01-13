@@ -15,7 +15,7 @@ var web = &cobra.Command{
 		}
 		conn := app.InstanceAPI(config.Key, config.Secret)
 
-		app.Host(conn)
+		app.Host(conn, config.Env)
 
 		return nil
 	},

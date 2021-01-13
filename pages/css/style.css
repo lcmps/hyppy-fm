@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 my-auto {
     margin-top: auto;
     margin-bottom: auto;
@@ -6,6 +8,10 @@ my-auto {
 body, html {
     height: 100%;
     background-color: #312c51;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
 }
 
 .flb {
@@ -39,9 +45,9 @@ body, html {
     max-width: 80%;
     background: #f7fafc;
     border-radius: 15px;
-    -webkit-box-shadow: 0px 0px 300px -5px rgba(15, 15, 15, 1);
-    -moz-box-shadow: 0px 0px 300px -5px rgba(15, 15, 15, 1);
-    box-shadow: 0px 0px 300px -5px rgba(15, 15, 15, 1);
+    -webkit-box-shadow: 0px 0px 120px -5px rgba(15, 15, 15, 1);
+    -moz-box-shadow: 0px 0px 120px -5px rgba(15, 15, 15, 1);
+    box-shadow: 0px 0px 120px -5px rgba(15, 15, 15, 1);
 }
 
 .form-hold form {
@@ -78,4 +84,18 @@ body, html {
     top: 37px;
     color: #282440;
     opacity: 0.5;
+}
+
+#sbmt{
+    color: #fff;
+    background-color: #48426d;
+    border-color: #312c51;
+}
+
+.navbar.navbar-default{
+    background-color: #48426d;
+}
+
+a.navbar-brand{
+    color: #f1aa9b;
 }
