@@ -6,6 +6,9 @@
 *.so
 *.dylib
 *.yaml
+.*
+!/.gitignore
+/scripts
 
 # Test binary, built with `go test -c`
 *.test

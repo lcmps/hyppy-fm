@@ -19,10 +19,10 @@ type Config struct {
 func InitConfig() (*Config, error) {
 
 	config := &Config{
-		Version: viper.GetString("version"),
-		Key:     viper.GetString("key"),
-		Secret:  viper.GetString("secret"),
-		Env:     viper.GetString("env"),
+		Version: viper.GetString("VERSION"),
+		Key:     viper.GetString("KEY"),
+		Secret:  viper.GetString("SECRET"),
+		Env:     viper.GetString("ENV"),
 	}
 
 	if len(config.Version) == 0 {

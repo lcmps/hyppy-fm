@@ -1,0 +1,79 @@
+.main-panel{
+    background: #312c51;
+    border-top: 3px solid #f05454;
+}
+
+.sidebar, .off-canvas-sidebar{
+    background: #f05454;
+}
+
+.btn-primary{
+    background: #f05454;
+    background-color: #f05454;
+}
+
+.card{
+    background: #48426d;
+}
+
+#clg-form .form-control{
+    color: #f0c38e;
+}
+
+.sidebar p{
+    color: #ffffff;
+    font-size: 0.89rem;
+}
+
+.fm-control-sbmt {
+    width: 55%;
+}
+
+.form-control {
+    margin: auto;
+    text-align: center;
+}
+
+.form-control:focus {
+    border-color: #f05454;
+    background-color: #48426d;
+    box-shadow: none;
+}
+
+.btn-primary:hover, .btn-primary:focus,
+.btn-primary:active, .btn-primary.active,
+.btn-primary:active:focus, .btn-primary:active:hover,
+.btn-primary.active:focus, .btn-primary.active:hover{
+    background-color: #f05454!important;
+    background-image: none!important;
+}
+
+select{
+    text-align: justify; /* For Edge */
+    text-align-last: center;
+}
+
+.footer {
+    padding: 22px 0 24px 250px;
+}
+
+a, a:hover, a:focus {
+    color: #f05454;
+    font-weight: 400;
+}
+
+.navbar a.navbar-brand{
+    color: #ffffff;
+}
+
+@media only screen and (max-width:600px){
+    .fm-control-sbmt{
+        width: 100%;
+    }
+}
+
+@media only screen and (min-height :485px){
+    .main-panel .content{
+        padding-top: 24vh;
+    }
+}

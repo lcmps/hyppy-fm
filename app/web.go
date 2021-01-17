@@ -1,7 +1,9 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lcmps/hippyfm/models"
@@ -19,14 +21,19 @@ func Host(conn *lastfm.Api, env string) {
 
 	r := gin.Default()
 	r.LoadHTMLGlob("./pages/html/*")
-	r.Static("/css", "./pages/css/")
-	r.Static("/js", "./pages/js/")
-	r.Static("/images", "./pages/images/")
+
+	r.Static("/assets", "./pages/assets/")
+	r.Static("/fvc/", "./pages/assets/img/favicon/")
 
 	r.GET("/", home)
 	r.GET("/img", serveCollage(conn))
 
-	r.Run()
+	p := os.Getenv("PORT")
+	// p := "8080"
+	err := r.Run(":" + p)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 }
 
 func home(ctx *gin.Context) {

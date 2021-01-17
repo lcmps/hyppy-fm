@@ -17,7 +17,6 @@ require (
 	github.com/ozankasikci/go-image-merge v0.2.2
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/shkh/lastfm-go v0.0.0-20191215035245-89a801c244e0
-	github.com/sirupsen/logrus v1.7.0
 	github.com/smartystreets/assertions v1.2.0 // indirect
 	github.com/spf13/afero v1.5.1 // indirect
 	github.com/spf13/cast v1.3.1 // indirect

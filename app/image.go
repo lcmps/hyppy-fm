@@ -37,6 +37,8 @@ func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) ([]image.Image, erro
 	res, err := api.User.GetTopAlbums(opts)
 	if err != nil {
 		return nil, err
+	} else if res.Albums == nil {
+		return nil, errors.New("User " + u + " has no top albums")
 	}
 
 	for _, album := range res.Albums {
