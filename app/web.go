@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -10,55 +11,104 @@ import (
 
 var r *gin.Engine
 
-// Host any
-func Host(conn *lastfm.Api, env string) {
-
-	if env != "dev" {
-		gin.SetMode(gin.ReleaseMode)
-	}
-
+// Host runs the webapplication and related endpoints
+func Host(conn *lastfm.Api, p string) {
 	r := gin.Default()
 	r.LoadHTMLGlob("./pages/html/*")
-	r.Static("/css", "./pages/css/")
-	r.Static("/js", "./pages/js/")
-	r.Static("/images", "./pages/images/")
+
+	r.Static("/assets", "./pages/assets/")
+	r.Static("/fvc/", "./pages/assets/img/favicon/")
+	r.Static("/hy", "./pages/assets/img/clg/")
 
 	r.GET("/", home)
-	r.GET("/img", serveCollage(conn))
+	r.POST("/img", serveImageClg(conn))
+	r.POST("/clg", serveLink(conn))
 
-	r.Run()
+	err := r.Run(":" + p)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 }
 
 func home(ctx *gin.Context) {
 
-	// Call the HTML method of the Context to render a template
+	// Call HTML render a template
 	ctx.HTML(
-		// Set the HTTP status to 200 (OK)
 		http.StatusOK,
-		// Use the index.html template
 		"index.html",
-		// Pass the data that the page uses (in this case, 'title')
 		gin.H{
 			"title": "Hyppy FM",
 		},
 	)
 }
 
-func serveCollage(conn *lastfm.Api) gin.HandlerFunc {
+func serveLink(conn *lastfm.Api) gin.HandlerFunc {
 	fn := func(ctx *gin.Context) {
-		var json models.CollageParams
-		var query models.UriParams
+		var usrPayload models.CollageParams
 
-		if err := ctx.ShouldBindJSON(&json); err == nil {
+		if err := ctx.ShouldBindJSON(&usrPayload); err == nil {
 
-			img, err := GetAlbumsByPeriod(conn, json.Username, json.Period, json.Limit)
+			img, err := GetAlbumsByPeriod(conn, usrPayload.Username, usrPayload.Period, usrPayload.Size*usrPayload.Size)
 			if err != nil {
-				ctx.Data(http.StatusBadRequest, "text/plain", []byte(err.Error()))
+				errResp := models.InternalError{
+					Reason: err.Error(),
+				}
+
+				ctx.JSON(http.StatusBadRequest, errResp)
 				return
 			}
-			b, err := CreateByteCollage(img, json.Size)
+			if img == nil {
+				resp := models.ResponseClg{
+					Path: "/hy/" + filenameGenerator(usrPayload.Username, usrPayload.Period, usrPayload.Size),
+				}
+				ctx.JSON(http.StatusOK, resp)
+				return
+			}
+
+			b, err := CreateByteCollage(img, usrPayload.Size)
 			if err != nil {
-				ctx.Data(http.StatusBadRequest, "text/plain", []byte(err.Error()))
+				errResp := models.InternalError{
+					Reason: err.Error(),
+				}
+
+				ctx.JSON(http.StatusBadRequest, errResp)
+				return
+			}
+			fileName := saveCollage(b.Bytes(), usrPayload.Username, usrPayload.Period, usrPayload.Size)
+			resp := models.ResponseClg{
+				Path: "/hy/" + fileName,
+			}
+
+			ctx.JSON(http.StatusOK, resp)
+			return
+		}
+	}
+	return fn
+}
+
+func serveImageClg(conn *lastfm.Api) gin.HandlerFunc {
+	fn := func(ctx *gin.Context) {
+		var usrPayload models.CollageParams
+		var query models.UriParams
+
+		if err := ctx.ShouldBindJSON(&usrPayload); err == nil {
+
+			img, err := GetAlbumsByPeriod(conn, usrPayload.Username, usrPayload.Period, usrPayload.Size*usrPayload.Size)
+			if err != nil {
+				errResp := models.InternalError{
+					Reason: err.Error(),
+				}
+
+				ctx.JSON(http.StatusBadRequest, errResp)
+				return
+			}
+			b, err := CreateByteCollage(img, usrPayload.Size)
+			if err != nil {
+				errResp := models.InternalError{
+					Reason: err.Error(),
+				}
+
+				ctx.JSON(http.StatusBadRequest, errResp)
 				return
 			}
 
@@ -68,12 +118,20 @@ func serveCollage(conn *lastfm.Api) gin.HandlerFunc {
 
 			img, err := GetAlbumsByPeriod(conn, query.Username, query.Period, query.Size*query.Size)
 			if err != nil {
-				ctx.Data(http.StatusBadRequest, "text/plain", []byte(err.Error()))
+				errResp := models.InternalError{
+					Reason: err.Error(),
+				}
+
+				ctx.JSON(http.StatusBadRequest, errResp)
 				return
 			}
 			b, err := CreateByteCollage(img, query.Size)
 			if err != nil {
-				ctx.Data(http.StatusBadRequest, "text/plain", []byte(err.Error()))
+				errResp := models.InternalError{
+					Reason: err.Error(),
+				}
+
+				ctx.JSON(http.StatusBadRequest, errResp)
 				return
 			}
 

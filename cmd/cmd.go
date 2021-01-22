@@ -3,10 +3,12 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
+
+var configFile string
+var cfgPath = "./configs"
 
 // Execute the application.
 func Execute() {
@@ -28,19 +30,18 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&configFile, "config", "", "config file (default is ./configs/default.yaml)")
 }
 
-var configFile string
-
 func initConfig() {
 	if configFile != "" {
 		viper.SetConfigFile(configFile)
 	} else {
 		viper.SetConfigName("default")
-		viper.AddConfigPath("./configs")
+		viper.AddConfigPath(cfgPath)
 	}
 
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
-		logrus.WithError(err).Fatal("Unable to read config from file")
+		fmt.Println("Unable to read config from file")
+		// logrus.WithError(err).Fatal("Unable to read config from file")
 	}
 }

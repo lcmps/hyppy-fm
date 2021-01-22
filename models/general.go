@@ -10,7 +10,6 @@ type ImgHelper []struct {
 type CollageParams struct {
 	Username string `json:"username"`
 	Period   string `json:"period"`
-	Limit    int    `json:"limit"`
 	Size     int    `json:"size"`
 }
 
@@ -23,4 +22,9 @@ type UriParams struct {
 // InternalError default error structure
 type InternalError struct {
 	Reason string
+}
+
+// ResponseClg default response for clg/ endpoint
+type ResponseClg struct {
+	Path string
 }

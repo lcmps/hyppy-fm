@@ -1,5 +1,9 @@
 {{ template "header.html" .}}
 
-{{ template "aside.html" .}}
-
-{{ template "footer.html" .}}
+<div class="main-panel">
+    {{ template "navbar.html" .}}
+    {{ template "content.html" .}}
+    {{ template "scripts.html" .}}
+    {{ template "footer.html" .}}
+</div>
+{{ template "end.html" .}}

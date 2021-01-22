@@ -8,8 +8,11 @@ import (
 	"image/color"
 	"image/png"
 	"io/ioutil"
+	"math"
 	"net/http"
+	"os"
 	"strings"
+	"time"
 
 	clg "github.com/ozankasikci/go-image-merge"
 	"github.com/shkh/lastfm-go/lastfm"
@@ -20,14 +23,19 @@ import (
 // GetAlbumsByPeriod where u- username, p- period : overall | 7day | 1month | 3month | 6month | 12month And l- limit : The number of results to fetch per page. Defaults to 50.
 func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) ([]image.Image, error) {
 
+	ex := existCollage(filenameGenerator(u, p, int(math.Sqrt(float64(l)))))
+	if ex == true {
+		return nil, nil
+	}
+
 	if u == "" {
-		return nil, errors.New("User cannot be empty")
+		return nil, errors.New("User empty or invalid")
 	}
 	if p == "" {
-		return nil, errors.New("Period cannot be empty")
+		return nil, errors.New("Period empty or invalid")
 	}
 	if l < 1 {
-		return nil, errors.New("limit cannot be empty")
+		return nil, errors.New("Size empty or invalid")
 	}
 
 	opts := lastfm.P{"user": u, "period": p, "limit": l}
@@ -37,6 +45,8 @@ func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) ([]image.Image, erro
 	res, err := api.User.GetTopAlbums(opts)
 	if err != nil {
 		return nil, err
+	} else if res.Albums == nil {
+		return nil, errors.New("User " + u + " has no top albums")
 	}
 
 	for _, album := range res.Albums {
@@ -48,7 +58,7 @@ func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) ([]image.Image, erro
 	return covers, nil
 }
 
-// CreateByteCollage a
+// CreateByteCollage generates a album collage with the sourced images
 func CreateByteCollage(img []image.Image, s int) (*bytes.Buffer, error) {
 
 	if s < 1 {
@@ -69,12 +79,28 @@ func CreateByteCollage(img []image.Image, s int) (*bytes.Buffer, error) {
 		return nil, err
 	}
 	buf := new(bytes.Buffer)
-	png.Encode(buf, rgba)
+
+	enc := &png.Encoder{
+		CompressionLevel: png.BestSpeed,
+	}
+	enc.Encode(buf, rgba)
 	if err != nil {
 		return nil, err
 	}
 
 	return buf, nil
+}
+
+func saveCollage(clg []byte, u, p string, s int) (fileName string) {
+
+	name := filenameGenerator(u, p, s)
+
+	err := ioutil.WriteFile("pages/assets/img/clg/"+name, clg, 0666)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println("Saving file " + name)
+	return name
 }
 
 func handleImage(url string) image.Image {
@@ -126,4 +152,19 @@ func coverSave(url, u string) {
 		fmt.Println(err.Error())
 	}
 	fmt.Println("Saving file " + name)
+}
+
+func filenameGenerator(u, p string, s int) string {
+	t := time.Now()
+	today := t.Format("2006-01-02-T15")
+	name := fmt.Sprintf(`%s_%s_%s_%dx%d.png`, u, today, p, s, s)
+	return name
+}
+
+func existCollage(fileName string) bool {
+	_, err := os.Open("pages/assets/img/clg/" + fileName)
+	if err != nil {
+		return false
+	}
+	return true
 }
