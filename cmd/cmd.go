@@ -31,7 +31,6 @@ func init() {
 }
 
 func initConfig() {
-
 	if configFile != "" {
 		viper.SetConfigFile(configFile)
 	} else {
@@ -40,4 +39,9 @@ func initConfig() {
 	}
 
 	viper.AutomaticEnv()
+
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("Unable to read config from file")
+		// logrus.WithError(err).Fatal("Unable to read config from file")
+	}
 }

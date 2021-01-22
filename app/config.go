@@ -12,17 +12,17 @@ type Config struct {
 	Version string
 	Key     string
 	Secret  string
-	Env     string
+	Port    string
 }
 
 // InitConfig initiates this application default configuration
 func InitConfig() (*Config, error) {
 
 	config := &Config{
-		Version: viper.GetString("VERSION"),
-		Key:     viper.GetString("KEY"),
-		Secret:  viper.GetString("SECRET"),
-		Env:     viper.GetString("ENV"),
+		Version: fmt.Sprintf("%v", viper.Get("VERSION")),
+		Key:     fmt.Sprintf("%v", viper.Get("KEY")),
+		Secret:  fmt.Sprintf("%v", viper.Get("SECRET")),
+		Port:    fmt.Sprintf("%v", viper.Get("PORT")),
 	}
 
 	if len(config.Version) == 0 {
@@ -35,10 +35,6 @@ func InitConfig() (*Config, error) {
 
 	if len(config.Secret) == 0 {
 		return nil, fmt.Errorf("Secret must be set")
-	}
-
-	if len(config.Env) == 0 {
-		return nil, fmt.Errorf("Env must be set")
 	}
 
 	return config, nil

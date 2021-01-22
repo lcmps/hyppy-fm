@@ -66,6 +66,24 @@ a, a:hover, a:focus {
     color: #ffffff;
 }
 
+div.img-holder{
+    display: none;
+}
+
+.img-content{
+    text-align: center;
+}
+
+.dl-btn{
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+#dl-img, #dl-img:hover, #dl-img:hover{
+    color: #fff;
+    text-decoration: none;
+}
+
 @media only screen and (max-width:600px){
     .fm-control-sbmt{
         width: 100%;

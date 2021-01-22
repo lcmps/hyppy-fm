@@ -9,7 +9,7 @@
 .*
 !/.gitignore
 /scripts
-
+/pages/assets/img/clg/*
 # Test binary, built with `go test -c`
 *.test
 
