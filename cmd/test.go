@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/lcmps/hippyfm/app"
 	"github.com/spf13/cobra"
 )
@@ -16,8 +18,8 @@ var test = &cobra.Command{
 
 		conn := app.InstanceAPI(config.Key, config.Secret)
 
-		app.GetAlbumsByPeriod(conn, "luka1498", "7day", 9)
-
+		a, _ := app.GetUserInfo(conn, "luka1498")
+		fmt.Println(a)
 		return nil
 	},
 }

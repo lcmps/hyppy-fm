@@ -50,7 +50,7 @@ func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) ([]image.Image, erro
 	}
 
 	for _, album := range res.Albums {
-		img := getLargestCover(album.Images)
+		img := getLargestImage(album.Images)
 		pCover := handleImage(img)
 		covers = append(covers, pCover)
 	}

@@ -20,7 +20,12 @@ func Host(conn *lastfm.Api, p string) {
 	r.Static("/fvc/", "./pages/assets/img/favicon/")
 	r.Static("/hy", "./pages/assets/img/clg/")
 
+	// Pages
 	r.GET("/", home)
+	r.GET("/dash", dashboards)
+
+	// APIs
+	r.GET("/usr", usrInfoEndpoint(conn))
 	r.POST("/img", serveImageClg(conn))
 	r.POST("/clg", serveLink(conn))
 
@@ -31,8 +36,6 @@ func Host(conn *lastfm.Api, p string) {
 }
 
 func home(ctx *gin.Context) {
-
-	// Call HTML render a template
 	ctx.HTML(
 		http.StatusOK,
 		"index.html",
@@ -40,6 +43,36 @@ func home(ctx *gin.Context) {
 			"title": "Hyppy FM",
 		},
 	)
+}
+
+func dashboards(ctx *gin.Context) {
+	ctx.HTML(
+		http.StatusOK,
+		"dashboard.html",
+		gin.H{
+			"title": "Hyppy FM | Dashboard",
+		},
+	)
+}
+
+func usrInfoEndpoint(conn *lastfm.Api) gin.HandlerFunc {
+	fn := func(ctx *gin.Context) {
+		var uri models.UsrURI
+
+		if err := ctx.ShouldBindQuery(&uri); err == nil {
+			info, err := GetUserInfo(conn, uri.Username)
+			if err != nil {
+				errResp := models.InternalError{
+					Reason: err.Error(),
+				}
+				ctx.JSON(http.StatusBadRequest, errResp)
+				return
+			}
+			ctx.JSON(http.StatusOK, info)
+			return
+		}
+	}
+	return fn
 }
 
 func serveLink(conn *lastfm.Api) gin.HandlerFunc {
@@ -89,7 +122,7 @@ func serveLink(conn *lastfm.Api) gin.HandlerFunc {
 func serveImageClg(conn *lastfm.Api) gin.HandlerFunc {
 	fn := func(ctx *gin.Context) {
 		var usrPayload models.CollageParams
-		var query models.UriParams
+		var query models.URIParams
 
 		if err := ctx.ShouldBindJSON(&usrPayload); err == nil {
 

@@ -13,7 +13,8 @@ type CollageParams struct {
 	Size     int    `json:"size"`
 }
 
-type UriParams struct {
+// URIParams any
+type URIParams struct {
 	Username string `form:"username"`
 	Period   string `form:"period"`
 	Size     int    `form:"size"`
@@ -27,4 +28,9 @@ type InternalError struct {
 // ResponseClg default response for clg/ endpoint
 type ResponseClg struct {
 	Path string
+}
+
+// UsrURI expected payload
+type UsrURI struct {
+	Username string `form:"username"`
 }
