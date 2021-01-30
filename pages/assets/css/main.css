@@ -1,3 +1,7 @@
+body{
+    background-color: #312c51;
+}
+
 .main-panel{
     background: #312c51;
     border-top: 3px solid #f05454;
@@ -84,6 +88,58 @@ div.img-holder{
     text-decoration: none;
 }
 
+#username-info{
+    display: inline-block;
+    max-width: 40%;
+    margin-right: 20px
+}
+
+#btn-user{
+    display: inline-block;
+}
+
+.info-holder{
+    text-align: center;
+}
+
+.img-user-holder{
+    text-align: center;
+}
+
+.info-user-holder{
+    margin-top: 20px;
+}
+
+.user-info{
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+.ulabel{
+    text-align: left;
+    margin-top: 10px;
+}
+
+.rounded{
+    border-radius: 50%!important;
+}
+
+.form-control[disabled],
+.form-control[readonly], 
+fieldset[disabled] .form-control{
+    background-color: #312c5145;
+    color: #fff;
+    cursor: not-allowed;
+}
+
+#usrInfoHolder{
+    display: none;
+}
+
+a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus{
+    color: white;
+}
+
 @media only screen and (max-width:600px){
     .fm-control-sbmt{
         width: 100%;
@@ -91,7 +147,7 @@ div.img-holder{
 }
 
 @media only screen and (min-height :485px){
-    .main-panel .content{
+    .main-panel #collage.content{
         padding-top: 24vh;
     }
 }

@@ -1,27 +1,8 @@
 var btn = document.querySelector('#sbmt')
 btn.addEventListener('click', function(e){
     e.preventDefault()
-    // CollageToSide()
     GETCollage()
 })
-
-function CollageToSide() {
-    var holder = document.querySelector('.img-content');
-    holder.innerHTML = ''
-
-    var clg = document.querySelector(".img-content");
-    var props = {
-        username: document.querySelector("#username").value,
-        period: document.querySelector("#period").value,
-        size: document.querySelector("#size").value
-    };
-
-    var opts = document.createElement('img');
-    opts.src = "img?username=" + props.username + "&period=" + props.period + "&size=" + props.size;
-    clg.appendChild(opts);
-
-    document.querySelector('.img-holder').style.display = "block";
-}
 
 function GETCollage() {
 
