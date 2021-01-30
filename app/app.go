@@ -11,8 +11,8 @@ func InstanceAPI(key, secret string) *lastfm.Api {
 	return api
 }
 
-// getLargestCover returns a 300x300 album cover
-func getLargestCover(img models.ImgHelper) string {
+// getLargestImage returns a 300x300 album cover
+func getLargestImage(img models.ImgHelper) string {
 	s := img[len(img)-1]
 	return s.Url
 }
