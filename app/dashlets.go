@@ -1,7 +1,9 @@
 package app
 
 import (
+	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/lcmps/hippyfm/models"
@@ -68,4 +70,31 @@ func GetUserTopArtists(conn *lastfm.Api, u, p string, l int) (models.UserArtists
 	}
 
 	return ua, nil
+}
+
+// GetTagsByArtist returns 5 tags from a single artist
+func GetTagsByArtist(api *lastfm.Api, mbid string) ([]string, error) {
+	opts := lastfm.P{"mbid": mbid}
+	var data []string
+
+	res, err := api.Artist.GetTopTags(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	for i := 0; i <= 5 && i <= len(res.Tags); i++ {
+		data = append(data, res.Tags[i].Name)
+	}
+
+	return data, nil
+}
+
+// EnrichTagData any
+func EnrichTagData(tagset []string) []string {
+
+	sort.Slice(tagset, func(i, j int) bool {
+		return strings.ToLower(tagset[i]) < strings.ToLower(tagset[j])
+	})
+
+	return tagset
 }

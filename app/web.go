@@ -9,8 +9,6 @@ import (
 	"github.com/shkh/lastfm-go/lastfm"
 )
 
-var r *gin.Engine
-
 // Host runs the webapplication and related endpoints
 func Host(conn *lastfm.Api, p string) {
 	r := gin.Default()

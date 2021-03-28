@@ -30,11 +30,11 @@ func InitConfig() (*Config, error) {
 	}
 
 	if len(config.Key) == 0 {
-		return nil, fmt.Errorf("Key must be set")
+		return nil, fmt.Errorf("key must be set")
 	}
 
 	if len(config.Secret) == 0 {
-		return nil, fmt.Errorf("Secret must be set")
+		return nil, fmt.Errorf("secret must be set")
 	}
 
 	return config, nil

@@ -1,27 +1,31 @@
 body{
-    background-color: #312c51;
+    background-color: #191b43;
 }
 
 .main-panel{
-    background: #312c51;
-    border-top: 3px solid #f05454;
+    background: #191b43;
+    border-top: 3px solid #00bf9b;
 }
 
 .sidebar, .off-canvas-sidebar{
-    background: #f05454;
+    background: #00bf9b;
 }
 
 .btn-primary{
-    background: #f05454;
-    background-color: #f05454;
+    background: #00bf9b;
+    background-color: #00bf9b;
 }
 
+.btn-primary:disabled{
+    background: #191b43;
+    background-color: #191b43;
+}
 .card{
     background: #48426d;
 }
 
 #clg-form .form-control{
-    color: #f0c38e;
+    color: #00bf9b;
 }
 
 .sidebar p{
@@ -39,7 +43,7 @@ body{
 }
 
 .form-control:focus {
-    border-color: #f05454;
+    border-color: #00bf9b;
     background-color: #48426d;
     box-shadow: none;
 }
@@ -48,7 +52,7 @@ body{
 .btn-primary:active, .btn-primary.active,
 .btn-primary:active:focus, .btn-primary:active:hover,
 .btn-primary.active:focus, .btn-primary.active:hover{
-    background-color: #f05454!important;
+    background-color: #00bf9b!important;
     background-image: none!important;
 }
 
@@ -62,7 +66,7 @@ select{
 }
 
 a, a:hover, a:focus {
-    color: #f05454;
+    color: #00bf9b;
     font-weight: 400;
 }
 
@@ -127,7 +131,7 @@ div.img-holder{
 .form-control[disabled],
 .form-control[readonly], 
 fieldset[disabled] .form-control{
-    background-color: #312c5145;
+    background-color: #191b43;
     color: #fff;
     cursor: not-allowed;
 }
@@ -146,8 +150,8 @@ a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus{
     }
 }
 
-@media only screen and (min-height :485px){
+/* @media only screen and (min-height :485px){
     .main-panel #collage.content{
         padding-top: 24vh;
     }
-}
+} */

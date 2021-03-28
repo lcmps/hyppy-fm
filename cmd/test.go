@@ -18,8 +18,10 @@ var test = &cobra.Command{
 
 		conn := app.InstanceAPI(config.Key, config.Secret)
 
-		a, _ := app.GetUserInfo(conn, "luka1498")
+		a, _ := app.GetTagsByArtist(conn, "a506f761-2c22-4b2f-8a94-bd748c2c8f75")
+		a = app.EnrichTagData(a)
 		fmt.Println(a)
+
 		return nil
 	},
 }

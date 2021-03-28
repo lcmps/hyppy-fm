@@ -32,3 +32,9 @@ type ArtistInfo struct {
 	URL       string
 	Image     string
 }
+
+// UserTags nfo
+type UserTags struct {
+	Tag  string
+	Hits int
+}

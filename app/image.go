@@ -11,7 +11,6 @@ import (
 	"math"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 
 	clg "github.com/ozankasikci/go-image-merge"
@@ -24,18 +23,18 @@ import (
 func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) ([]image.Image, error) {
 
 	ex := existCollage(filenameGenerator(u, p, int(math.Sqrt(float64(l)))))
-	if ex == true {
+	if ex {
 		return nil, nil
 	}
 
 	if u == "" {
-		return nil, errors.New("User empty or invalid")
+		return nil, errors.New("user empty or invalid")
 	}
 	if p == "" {
-		return nil, errors.New("Period empty or invalid")
+		return nil, errors.New("period empty or invalid")
 	}
 	if l < 1 {
-		return nil, errors.New("Size empty or invalid")
+		return nil, errors.New("size empty or invalid")
 	}
 
 	opts := lastfm.P{"user": u, "period": p, "limit": l}
@@ -62,7 +61,7 @@ func GetAlbumsByPeriod(api *lastfm.Api, u, p string, l int) ([]image.Image, erro
 func CreateByteCollage(img []image.Image, s int) (*bytes.Buffer, error) {
 
 	if s < 1 {
-		return nil, errors.New("Size cannot be empty")
+		return nil, errors.New("size cannot be empty")
 	}
 
 	grids := []*clg.Grid{}
@@ -129,29 +128,6 @@ func handleImage(url string) image.Image {
 	res.Body.Close()
 
 	return img
-}
-
-func coverSave(url, u string) {
-	res, err := http.Get(url)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	data, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	res.Body.Close()
-
-	n := strings.SplitAfter(url, "300x300/")
-	name := u + "_" + n[len(n)-1]
-
-	err = ioutil.WriteFile("img/"+name, data, 0666)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	fmt.Println("Saving file " + name)
 }
 
 func filenameGenerator(u, p string, s int) string {
